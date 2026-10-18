@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -15,9 +15,8 @@ export default function ConfigurePage() {
   const [upgrades, setUpgrades] = useState({ hose: false, regulator: false });
 
   const brandKey = brand as keyof typeof CYLINDER_PRICES.refill;
-  const basePrice = mode === "refill"
-    ? CYLINDER_PRICES.refill[brandKey]?.[size] ?? 0
-    : CYLINDER_PRICES.new_set[brandKey]?.[size] ?? 0;
+  const priceTable = mode === "refill" ? CYLINDER_PRICES.refill[brandKey] : CYLINDER_PRICES.new_set[brandKey];
+  const basePrice = priceTable ? (priceTable as any)[size] ?? 0 : 0;
 
   let total = basePrice;
   if (mode === "refill") {
@@ -65,30 +64,30 @@ export default function ConfigurePage() {
           <section className="flex flex-col gap-3">
             <h2 className="font-headline text-base font-bold text-[#002859]">1. Select Cylinder Size</h2>
             <div className="grid grid-cols-3 gap-2">
-              {(["6kg", "13kg", "50kg"] as const).map((s) => (
-                <div
-                  key={s}
-                  onClick={() => setSize(s)}
-                  className={`relative cursor-pointer rounded-xl p-3 shadow-sm transition-all ${
-                    size === s ? "bg-[#d7e2ff] ring-2 ring-[#002859]" : "bg-white hover:shadow-md"
-                  }`}
-                >
-                  <div className="flex flex-col items-center text-center">
-                    <span className="font-headline text-base font-bold text-[#002859]">{s}</span>
-                    <span className="text-xs text-[#434750] mt-0.5">
-                      {s === "6kg" ? "Compact" : s === "13kg" ? "Family" : "Commercial"}
-                    </span>
+              {(["6kg", "13kg", "50kg"] as const).map((s) => {
+                const priceTableVal = mode === "refill" ? CYLINDER_PRICES.refill[brandKey] : CYLINDER_PRICES.new_set[brandKey];
+                const sPrice = priceTableVal ? (priceTableVal as any)[s] ?? 0 : 0;
+                return (
+                  <div
+                    key={s}
+                    onClick={() => setSize(s)}
+                    className={`relative cursor-pointer rounded-xl p-3 shadow-sm transition-all ${
+                      size === s ? "bg-[#d7e2ff] ring-2 ring-[#002859]" : "bg-white hover:shadow-md"
+                    }`}
+                  >
+                    <div className="flex flex-col items-center text-center">
+                      <span className="font-headline text-base font-bold text-[#002859]">{s}</span>
+                      <span className="text-xs text-[#434750] mt-0.5">
+                        {s === "6kg" ? "Compact" : s === "13kg" ? "Family" : "Commercial"}
+                      </span>
+                    </div>
+                    <div className="mt-2 text-center">
+                      <span className="text-xs text-[#434750]">KSh</span>
+                      <span className="text-sm font-bold text-[#002859] ml-0.5">{sPrice}</span>
+                    </div>
                   </div>
-                  <div className="mt-2 text-center">
-                    <span className="text-xs text-[#434750]">KSh</span>
-                    <span className="text-sm font-bold text-[#002859] ml-0.5">
-                      {mode === "refill"
-                        ? CYLINDER_PRICES.refill[brandKey]?.[s] ?? 0
-                        : CYLINDER_PRICES.new_set[brandKey]?.[s] ?? 0}
-                    </span>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </section>
 
