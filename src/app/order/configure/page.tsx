@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
@@ -8,7 +8,7 @@ import { BRANDS, CYLINDER_PRICES, ACCESSORIES } from "@/config/catalog";
 
 type Size = "6kg" | "13kg" | "50kg";
 
-export default function ConfigurePage() {
+function ConfigureContent() {
   const searchParams = useSearchParams();
   const modeParam = searchParams.get("mode");
   const [mode, setMode] = useState<"refill" | "new_set">(modeParam === "new_set" ? "new_set" : "refill");
@@ -160,5 +160,13 @@ export default function ConfigurePage() {
         </Link>
       </div>
     </div>
+  );
+}
+
+export default function ConfigurePage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-[var(--background)] flex items-center justify-center">Loading...</div>}>
+      <ConfigureContent />
+    </Suspense>
   );
 }
