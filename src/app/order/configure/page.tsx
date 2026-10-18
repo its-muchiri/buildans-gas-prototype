@@ -6,17 +6,19 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { BRANDS, CYLINDER_PRICES, ACCESSORIES } from "@/config/catalog";
 
+type Size = "6kg" | "13kg" | "50kg";
+
 export default function ConfigurePage() {
   const searchParams = useSearchParams();
   const modeParam = searchParams.get("mode");
   const [mode, setMode] = useState<"refill" | "new_set">(modeParam === "new_set" ? "new_set" : "refill");
-  const [size, setSize] = useState<"6kg" | "13kg" | "50kg">("13kg");
+  const [size, setSize] = useState<Size>("13kg");
   const [brand, setBrand] = useState("progas");
   const [upgrades, setUpgrades] = useState({ hose: false, regulator: false });
 
   const brandKey = brand as keyof typeof CYLINDER_PRICES.refill;
   const priceTable = mode === "refill" ? CYLINDER_PRICES.refill[brandKey] : CYLINDER_PRICES.new_set[brandKey];
-  const basePrice = priceTable ? (priceTable as any)[size] ?? 0 : 0;
+  const basePrice = priceTable ? (priceTable as Record<Size, number>)[size] ?? 0 : 0;
 
   let total = basePrice;
   if (mode === "refill") {
@@ -66,7 +68,7 @@ export default function ConfigurePage() {
             <div className="grid grid-cols-3 gap-2">
               {(["6kg", "13kg", "50kg"] as const).map((s) => {
                 const priceTableVal = mode === "refill" ? CYLINDER_PRICES.refill[brandKey] : CYLINDER_PRICES.new_set[brandKey];
-                const sPrice = priceTableVal ? (priceTableVal as any)[s] ?? 0 : 0;
+                const sPrice = priceTableVal ? (priceTableVal as Record<Size, number>)[s] ?? 0 : 0;
                 return (
                   <div
                     key={s}
