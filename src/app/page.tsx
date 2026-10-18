@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import Image from "next/image";
 import { ESTATES, BUSINESS } from "@/config/catalog";
 
@@ -13,7 +13,7 @@ export default function HomePage() {
           <div className="flex items-center justify-center gap-1.5 w-full">
             <span className="material-symbols-outlined text-[#FE7112] text-sm leading-none">bolt</span>
             <p className="text-[10px] font-semibold text-white truncate">
-              Express Delivery in 20-30 Mins � Ngoingwa, Landless & Thika Environs
+              Express Delivery in 20-30 Mins • Ngoingwa, Landless & Thika Environs
             </p>
           </div>
         </div>
