@@ -1,4 +1,4 @@
-import { CYLINDER_PRICES, ESTATES, ACCESSORIES } from "@/config/catalog";
+﻿import { CYLINDER_PRICES, ESTATES, ACCESSORIES } from "@/config/catalog";
 
 export type OrderDraft = {
   mode: "refill" | "new_set";
@@ -19,10 +19,12 @@ export function calculateTotal(draft: OrderDraft) {
   
   let basePrice = 0;
   const brandKey = draft.brand as keyof typeof CYLINDER_PRICES.refill;
-  if (draft.mode === "refill") {
-    basePrice = CYLINDER_PRICES.refill[brandKey]?.[draft.size] ?? 0;
-  } else {
-    basePrice = CYLINDER_PRICES.new_set[brandKey]?.[draft.size] ?? 0;
+  const size = draft.size as "6kg" | "13kg" | "50kg";
+  const priceTable = draft.mode === "refill" 
+    ? CYLINDER_PRICES.refill[brandKey] 
+    : CYLINDER_PRICES.new_set[brandKey];
+  if (priceTable) {
+    basePrice = (priceTable as Record<"6kg" | "13kg" | "50kg", number>)[size] ?? 0;
   }
   
   let subtotal = basePrice;
