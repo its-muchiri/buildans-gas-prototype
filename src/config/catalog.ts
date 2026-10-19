@@ -28,8 +28,9 @@ export const BRANDS = [
 export const ACCESSORIES = [
   { id: "hose", name: "High-Pressure Safety Hose", price: 400, image: "/img/images (1).jpg" },
   { id: "regulator", name: "Low-Pressure Gas Regulator", price: 850, image: "/img/images (2).jpg" },
-  { id: "burner", name: "Heavy-Duty Burner", price: 0, image: "/img/images (3).jpg" },
-  { id: "cookertop", name: "Cooker Top", price: 0, image: "/img/images (4).jpg" },
+  { id: "burner", name: "Heavy-Duty Burner", price: 1500, image: "/img/images (3).jpg" },
+  { id: "cookertop", name: "Cooker Top", price: 2500, image: "/img/images (4).jpg" },
+  { id: "grill", name: "Gas Grill", price: 4500, image: "/img/images (5).jpg" },
 ] as const;
 
 export const CYLINDER_PRICES = {
