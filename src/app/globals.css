@@ -1,8 +1,27 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 
 :root {
   --background: #f8f9ff;
   --foreground: #0b1c30;
+  --surface: #ffffff;
+  --surface-variant: #eff4ff;
+  --border: #e2e8f0;
+  --primary: #002859;
+  --secondary: #FE7112;
+  --success: #00A859;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0f172a;
+    --foreground: #f1f5f9;
+    --surface: #1e293b;
+    --surface-variant: #334155;
+    --border: #475569;
+    --primary: #4d7cfe;
+    --secondary: #fb923c;
+    --success: #22c55e;
+  }
 }
 
 @theme inline {
@@ -18,8 +37,10 @@
     width: 100%;
     margin: 0;
     padding: 0;
-    background-color: #f8f9ff;
+    background-color: var(--background);
+    color: var(--foreground);
     font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
   body {
     overscroll-behavior-y: none;
@@ -38,4 +59,12 @@
 
 ::-webkit-scrollbar {
   display: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
